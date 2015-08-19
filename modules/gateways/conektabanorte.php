@@ -83,6 +83,20 @@ function conektabanorte_link($params) {
 				'amount' => intval($data_amount), 
 				'currency' => $data_currency, 
 				'bank' => array('type'=>'banorte')
+				'details'=> array(
+									      'email'			=> $email,
+									      'line_items'		=> array(
+															        array( 
+															          'name'		=>	$data_description,
+															          'sku'			=>	$invoiceid,
+															          'unit_price'	=> 	intval($data_amount),
+															          'description'	=>	$data_description,
+															          'quantity'	=> 	1,
+															          'type'		=>	'service-purchase'
+															        )
+									      )
+									      
+									 )
 				);
 	try {
 	

@@ -78,11 +78,25 @@ function conektaoxxo_link($params) {
 	
 	# Arraglo con informacion de tarjeta
 	$conekta = array(
-				'description' => $data_description, 
-				'reference_id' => 'factura_'.$invoiceid, 
-				'amount' => intval($data_amount), 
-				'currency' => $data_currency, 
-				'cash' => array('type'=>'oxxo')
+				'description' 		=> $data_description, 
+				'reference_id' 		=> 'factura_'.$invoiceid, 
+				'amount' 			=> intval($data_amount), 
+				'currency' 			=> $data_currency, 
+				'cash' 				=> array('type'=>'oxxo'),
+				'details'=> array(
+									      'email'			=> $email,
+									      'line_items'		=> array(
+															        array( 
+															          'name'		=>	$data_description,
+															          'sku'			=>	$invoiceid,
+															          'unit_price'	=> 	intval($data_amount),
+															          'description'	=>	$data_description,
+															          'quantity'	=> 	1,
+															          'type'		=>	'service-purchase'
+															        )
+									      )
+									      
+									 )
 				);
 	try {
 	

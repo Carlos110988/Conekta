@@ -2,7 +2,7 @@ Conekta  1.3.1 WHMCS
 
 Actualizacion 15 agosto 2015
 
-1.2 -> 1.3.1 subir solo /modules/gateways/conektacard.php
+1.2 -> 1.3.1 subir  /modules/gateways/conektacard.php, conektabanorte.php y conektaoxxo.php
 
 =======
 
