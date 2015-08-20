@@ -13,11 +13,11 @@
 </head>
 
 <?php
-	$barras = $_POST['barras'];
-	$numero = $_POST['numero'];
-    $expira = $_POST['expira'];
-    $monto = $_POST['monto'];
-    $concepto = $_POST['concepto'];
+	$barras 		= @$_POST['barras'];
+	$numero 		= @$_POST['numero'];
+    $expira 		= @$_POST['expira'];
+    $monto 			= @$_POST['monto'];
+    $concepto 		= @$_POST['concepto'];
 ?>
 
 <body>
@@ -39,7 +39,7 @@
     <td align="center"><?php echo $numero ?></td>
     </tr>
   <tr>
-    <td align="center">Fecha de vencimiento: <?php echo $expira ?></td>
+    <td align="center">Fecha de vencimiento: <?php echo date('d-m-Y',$expira) ?></td>
     </tr>
   <tr>
     <td align="center">Monto a pagar: $<?php echo $monto ?> M.N.</td>
@@ -49,7 +49,7 @@
     <td align="center">Concepto: <?php echo $concepto ?></td>
     </tr>
     <tr>
-    <td align="center"><p>La tienda donde se efectué el pago cobrara $8 (pesos) en concepto de recepción de cobranza.</p>
+    <td align="center"><p>La tienda donde se efectué el pago cobrara $7 a $ 10 (pesos) en concepto de recepción de cobranza.</p>
       <p>
         <input type="button" name="button" id="button" value="Imprimir" onclick="window.print()" />
       </p></td>

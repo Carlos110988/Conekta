@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (c) 2013, Carlos Cesar Peña Gomez <CarlosCesar110988@gmail.com>
+// Copyright (c) 2015, Carlos Cesar Peña Gomez <CarlosCesar110988@gmail.com>
 //
 // Permission to use, copy, modify, and/or distribute this software for any 
 // purpose with or without fee is hereby granted, provided that the above copyright 
@@ -15,16 +15,21 @@
 // OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE 
 // USE OR PERFORMANCE OF THIS SOFTWARE.
 
-function conektabanorte_config() {
+function conektaspei_config() {
     $configarray = array(
 		'FriendlyName' => array(
 			'Type' =>'System', 
-			'Value' =>'Conekta Banorte'
+			'Value' =>'Conekta SPEI'
 		),
 		'private_key' => array(
 			'FriendlyName' => 'Llave Privada', 
 			'Type' => 'text', 
 			'Size' => '50'
+		),
+		'days_expire' => array(
+			'FriendlyName' => 'Dias para Expirar', 
+			'Type' => 'text', 
+			'Size' => '2',
 		),
 		'instructions' => array(
 			'FriendlyName' => 'Instrucciones de pago', 
@@ -36,38 +41,46 @@ function conektabanorte_config() {
 	return $configarray;
 }
 
-
-function conektabanorte_link($params) {
+function conektaspei_link($params) {
 
 	# Variables de Conekta
 	$private_key = $params['private_key'];
+	
+	# Dias para que expire el Pago 
+	$days_expire = $params['days_expire'];
+	
+	# Si el parametro viene vacio lo fijamos a 5 dias
+	if(strlen($days_expire)==0){$days_expire=5;}
+	
+	# AAAA-MM-DD
+	
+	$date 		= time();
+	$expires 	= date('Y-m-d', strtotime('+'. $days_expire .' day', $date));
 
     # Variables de la Factura
-	$invoiceid = $params['invoiceid'];
-	$amount = $params['amount'];
-    $currency = $params['currency'];
+	$invoiceid 		= $params['invoiceid'];
+	$amount 		= $params['amount'];
+    $currency 		= $params['currency'];
 
     # Variables del cliente
-	$firstname = $params['clientdetails']['firstname'];
-	$lastname = $params['clientdetails']['lastname'];
-	$email = $params['clientdetails']['email'];
-	$address1 = $params['clientdetails']['address1'];
-	$address2 = $params['clientdetails']['address2'];
-	$city = $params['clientdetails']['city'];
-	$state = $params['clientdetails']['state'];
-	$postcode = $params['clientdetails']['postcode'];
-	$country = $params['clientdetails']['country'];
-	$phone = $params['clientdetails']['phonenumber'];
+	$firstname 		= $params['clientdetails']['firstname'];
+	$lastname 		= $params['clientdetails']['lastname'];
+	$email 			= $params['clientdetails']['email'];
+	$address1 		= $params['clientdetails']['address1'];
+	$address2 		= $params['clientdetails']['address2'];
+	$city 			= $params['clientdetails']['city'];
+	$state 			= $params['clientdetails']['state'];
+	$postcode 		= $params['clientdetails']['postcode'];
+	$country 		= $params['clientdetails']['country'];
+	$phone 			= $params['clientdetails']['phonenumber'];
 
-
-	
 	$results = array();
 	
 	# Preparamos todos los parametros para enviar a Conekta.io
 	
-	$data_amount = str_replace('.', '', $amount);
-	$data_currency = strtolower($currency);
-	$data_description = 'Pago Factura No. '.$invoiceid;
+	$data_amount 		= str_replace('.', '', $amount);
+	$data_currency 		= strtolower($currency);
+	$data_description 	= 'Pago Factura No. '.$invoiceid;
 	
 	# Incluimos la libreria de Conecta
 
@@ -78,11 +91,14 @@ function conektabanorte_link($params) {
 	
 	# Arraglo con informacion de tarjeta
 	$conekta = array(
-				'description' => $data_description, 
-				'reference_id' => 'factura_'.$invoiceid, 
-				'amount' => intval($data_amount), 
-				'currency' => $data_currency, 
-				'bank' => array('type'=>'banorte')
+				'description' 	=> $data_description, 
+				'reference_id' 	=> 'factura_'.$invoiceid, 
+				'amount' 		=> intval($data_amount), 
+				'currency' 		=> $data_currency, 
+				'bank' 			=> array(
+											'type'			=> 'spei',
+											'expires_at'	=> $expires
+										),
 				'details'=> array(
 									      'email'			=> $email,
 									      'line_items'		=> array(
@@ -98,6 +114,7 @@ function conektabanorte_link($params) {
 									      
 									 )
 				);
+				
 	try {
 	
 	
@@ -105,31 +122,29 @@ function conektabanorte_link($params) {
 	  
 	  # Transaccion Correcta
 	  $data = json_decode($charge);
-	  
-	  $service_name = $data->payment_method->service_name;
-	  $service_number = $data->payment_method->service_number;
-	  $type =  $data->payment_method->type;
-	  $reference =  $data->payment_method->reference;
 
-	  
+	  $clabe 			= $data->payment_method->clabe;
+	  $bank 			= $data->payment_method->bank;
+	  $type 			= $data->payment_method->type;
+	  $expires 		    = $data->payment_method->expires_at;
+
 	  $ticket = 1;
 	 
 	} 
 	
 	catch (Exception $e) 
 	{
-	  $code =  "Error al intentar generar pago en OXXO";
+	  $code =  "Error al intentar generar CLAVE de SPEI";
 	  
 	  $ticket = 0;
 	}
 
-	
 	if($ticket==1)
 	{
-		$code = '<form action="conekta_banorte.php" method="post" target="_blank">';
-		$code .= '<input type="hidden" name="service_name" value="'. $service_name .'" />';
-		$code .= '<input type="hidden" name="service_number" value="'. $service_number .'" />';
-		$code .= '<input type="hidden" name="reference" value="'. $reference .'" />';
+		$code = '<form action="conekta_spei.php" method="post" target="_blank">';
+		$code .= '<input type="hidden" name="clabe" value="'. $clabe .'" />';
+		$code .= '<input type="hidden" name="bank" value="'. $bank .'" />';
+		$code .= '<input type="hidden" name="expires" value="'. $expires .'" />';
 		$code .= '<input type="hidden" name="monto" value="'. $amount .'" />';
 		$code .= '<input type="hidden" name="concepto" value="'. $data_description .'" />';
 		$code .= '<input type="submit" value="Pagar ahora" />';
@@ -137,7 +152,6 @@ function conektabanorte_link($params) {
 	}
 	
 	return $code;
-
 }
 
 ?>

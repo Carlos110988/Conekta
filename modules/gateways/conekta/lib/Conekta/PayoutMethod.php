@@ -1,6 +1,6 @@
 <?php
-class Conekta_Card extends Conekta_Resource
-{	
+class Conekta_Payout_Method extends Conekta_Resource
+{
 	public function instanceUrl() 
 	{
 		$id = $this->id;
@@ -14,8 +14,8 @@ class Conekta_Card extends Conekta_Resource
 		$class = get_class($this);
 		$base = $this->classUrl($class);
 		$extn = urlencode($id);
-		$customerUrl = $this->customer->instanceUrl();
-		return "$customerUrl$base/$extn";  
+		$payeeUrl = $this->payee->instanceUrl();
+		return "$payeeUrl$base/$extn";  
 	}
 	
 	public function update($params=null)
@@ -24,7 +24,7 @@ class Conekta_Card extends Conekta_Resource
 	}
 	
 	public function delete() {
-		return self::_delete('customer', 'cards');
+		return self::_delete('payee', 'payout_methods');
 	}
 }
 ?>

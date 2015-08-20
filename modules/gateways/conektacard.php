@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (c) 2013, Carlos Cesar Peña Gomez <CarlosCesar110988@gmail.com>
+// Copyright (c) 2015, Carlos Cesar Peña Gomez <CarlosCesar110988@gmail.com>
 //
 // Permission to use, copy, modify, and/or distribute this software for any 
 // purpose with or without fee is hereby granted, provided that the above copyright 
@@ -40,43 +40,43 @@ function conektacard_config() {
 function conektacard_capture($params) {
 
     # Variables de Conekta
-	$private_key = $params['private_key'];
+	$private_key 	= $params['private_key'];
 
     # Variables de la Factura
-	$invoiceid = $params['invoiceid'];
-	$amount = $params['amount'];
-    $currency = $params['currency'];
+	$invoiceid 		= $params['invoiceid'];
+	$amount 		= $params['amount'];
+    $currency 		= $params['currency'];
 
     # Variables del cliente
-	$firstname = $params['clientdetails']['firstname'];
-	$lastname = $params['clientdetails']['lastname'];
-	$email = $params['clientdetails']['email'];
-	$address1 = $params['clientdetails']['address1'];
-	$address2 = $params['clientdetails']['address2'];
-	$city = $params['clientdetails']['city'];
-	$state = $params['clientdetails']['state'];
-	$postcode = $params['clientdetails']['postcode'];
-	$country = $params['clientdetails']['country'];
-	$phone = $params['clientdetails']['phonenumber'];
+	$firstname 		= $params['clientdetails']['firstname'];
+	$lastname 		= $params['clientdetails']['lastname'];
+	$email 			= $params['clientdetails']['email'];
+	$address1 		= $params['clientdetails']['address1'];
+	$address2 		= $params['clientdetails']['address2'];
+	$city 			= $params['clientdetails']['city'];
+	$state 			= $params['clientdetails']['state'];
+	$postcode 		= $params['clientdetails']['postcode'];
+	$country 		= $params['clientdetails']['country'];
+	$phone 			= $params['clientdetails']['phonenumber'];
 
 	# Informacion de la Tarjeta
-	$cardtype = $params['cardtype'];
-	$cardnumber = $params['cardnum'];
-	$cardexpiry = $params['cardexp'];
-	$cardissuenum = $params['cccvv'];
+	$cardtype 		= $params['cardtype'];
+	$cardnumber 	= $params['cardnum'];
+	$cardexpiry 	= $params['cardexp'];
+	$cardissuenum 	= $params['cccvv'];
 	
 	$results = array();
 	
 	# Preparamos todos los parametros para enviar a Conekta.io
-	$card_num = $cardnumber;
-	$card_cvv = $cardissuenum;
-	$card_exp_month = substr($cardexpiry, 0, 2);
-	$card_exp_year = substr($cardexpiry, 2, 4);
-	$card_name = $firstname.' '.$lastname;
+	$card_num 			= $cardnumber;
+	$card_cvv 			= $cardissuenum;
+	$card_exp_month 	= substr($cardexpiry, 0, 2);
+	$card_exp_year 		= substr($cardexpiry, 2, 4);
+	$card_name 			= $firstname.' '.$lastname;
 	
-	$data_amount = str_replace('.', '', $amount);
-	$data_currency = strtolower($currency);
-	$data_description = 'Pago Factura No. '.$invoiceid;
+	$data_amount 		= str_replace('.', '', $amount);
+	$data_currency 		= strtolower($currency);
+	$data_description 	= 'Pago Factura No. '.$invoiceid;
 	
 	# Incluimos la libreria de Conecta
 	require_once('conekta/lib/Conekta.php');

@@ -1,7 +1,14 @@
-Conekta  1.3.1 WHMCS
+Conekta  2.0 WHMCS
+
+Actualizacion 20 agosto 2015
+
+* Se elimino el Metodo de pago Banorte
+* Añadimos SPEI como metodo de Pago
+* Actualizamos la Librerias de Conekta.IO
+* En el Metodo de OXXO y SPEI añadimos fecha de Expiracion en la Configuracion del Gateway
+* Recomendamos Borrar todos los archivos referentes a Banorte
 
 Actualizacion 15 agosto 2015
-
 Actualizar de 1.2 -> 1.3.1 subir  /modules/gateways/conektacard.php, conektabanorte.php y conektaoxxo.php
 
 =======
@@ -16,7 +23,9 @@ Conekta - Pagos con Tarjeta
 
 Conekta - Pagos en Tiendas OXXO + WebHooks
 
-Conekta - Pagos Banco Banorte + WebHooks
+Conekta - Pagos en SPEI + WebHooks
+
+Conekta - Pagos Banco Banorte + WebHooks (Metodo Eliminado)
 
 
 
@@ -34,9 +43,13 @@ Instrucciones:
 
 3.- Configurar WebHooks en el portal de Conekta.io
     
-      - http://www.misitio.com/whmcs/modules/gateways/callback/conektabanorte.php
+      - http://www.misitio.com/whmcs/modules/gateways/callback/conektabanorte.php (Eliminado)
+      
+      - http://www.misitio.com/whmcs/modules/gateways/callback/conektaspei.php
       
       - http://www.misitio.com/whmcs/modules/gateways/callback/conektaoxxo.php
+
+3.- Subir a raiz del WHMCS los archvos conekta_oxxo.php y conekta_spei.php
 
 4.- Realiza un par de pruebas en entorno testing
 

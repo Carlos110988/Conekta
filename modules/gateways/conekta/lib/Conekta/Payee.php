@@ -1,15 +1,14 @@
 <?php
-class Conekta_Customer extends Conekta_Resource
+class Conekta_Payee extends Conekta_Resource
 {
-	
 	public function loadFromArray($values=null) {
 		if (isset($values)) {
 			parent::loadFromArray($values);
 		}
-		foreach ($this->cards as $k => $v) {
+		foreach ($this->payout_methods as $k => $v) {
 			if (isset($v->deleted) != true) {
-				$v->customer = &$this;
-				$this->cards[$k] = $v;
+				$v->payee = &$this;
+				$this->payout_methods[$k] = $v;
 			}
 		}
 		
@@ -44,28 +43,9 @@ class Conekta_Customer extends Conekta_Resource
 		return self::_update($params);
 	}
 	
-	public function createCard($params=null)
+	public function createPayoutMethod($params=null)
 	{
-		return self::_createMember('cards', $params);
-	}
-	
-	public function createSubscription($params=null)
-	{
-		return self::_createMember('subscription', $params);
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public static function retrieve($id)
-	{
-		$class = get_called_class();
-		return self::_scpFind($class, $id);
-	}
-	
-	public static function all($params=null) {
-		$class = get_called_class();
-		return self::_scpWhere($class, $params);
+		return self::_createMember('payout_methods', $params);
 	}
 }
 ?>

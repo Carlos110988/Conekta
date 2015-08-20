@@ -1,5 +1,5 @@
 <?php
-class Conekta_Card extends Conekta_Resource
+class Conekta_Subscription extends Conekta_Resource
 {	
 	public function instanceUrl() 
 	{
@@ -12,10 +12,9 @@ class Conekta_Card extends Conekta_Resource
 			);
 		}
 		$class = get_class($this);
-		$base = $this->classUrl($class);
-		$extn = urlencode($id);
+		$base = '/subscription';
 		$customerUrl = $this->customer->instanceUrl();
-		return "$customerUrl$base/$extn";  
+		return "$customerUrl$base";  
 	}
 	
 	public function update($params=null)
@@ -23,8 +22,19 @@ class Conekta_Card extends Conekta_Resource
 		return self::_update($params);
 	}
 	
-	public function delete() {
-		return self::_delete('customer', 'cards');
+	public function cancel()
+	{
+		return self::_customAction('post', 'cancel');
+	}
+	
+	public function pause()
+	{
+		return self::_customAction('post', 'pause');
+	}
+	
+	public function resume()
+	{
+		return self::_customAction('post', 'resume');
 	}
 }
 ?>

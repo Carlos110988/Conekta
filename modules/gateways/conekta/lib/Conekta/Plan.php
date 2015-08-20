@@ -1,40 +1,44 @@
 <?php
-
-class Conekta_Plan extends Conekta_ApiResource
+class Conekta_Plan extends Conekta_Resource
 {
-  public static function constructFrom($values, $apiKey=null)
-  {
-    $class = get_class();
-    return self::scopedConstructFrom($class, $values, $apiKey);
-  }
-
-  public static function retrieve($id, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedRetrieve($class, $id, $apiKey);
-  }
-
-  public static function create($params=null, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedCreate($class, $params, $apiKey);
-  }
-
-  public function delete($params=null)
-  {
-    $class = get_class();
-    return self::_scopedDelete($class, $params);
-  }
-  
-  public function save()
-  {
-    $class = get_class();
-    return self::_scopedSave($class);
-  }
-  
-  public static function all($params=null, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedAll($class, $params, $apiKey);
-  }
+	public static function find($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
+	
+	public static function create($params=null)
+	{
+		$class = get_called_class();
+		return self::_scpCreate($class, $params);
+	}
+	
+	public static function where($params=null) {
+		$class = get_called_class();
+		return self::_scpWhere($class, $params);
+	}
+	
+	public function delete() {
+		return self::_delete();
+	}
+	
+	public function update($params=null)
+	{
+		return self::_update($params);
+	}	
+	
+	/**
+	 * @deprecated
+	 */
+	public static function retrieve($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
+	
+	public static function all($params=null) {
+		$class = get_called_class();
+		return self::_scpWhere($class, $params);
+	}
 }
+?>

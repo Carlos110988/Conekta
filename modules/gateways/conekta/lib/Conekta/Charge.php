@@ -1,70 +1,49 @@
 <?php
-
-class Conekta_Charge extends Conekta_ApiResource
-{
-  public static function constructFrom($values, $apiKey=null)
-  {
-    $class = get_class();
-    return self::scopedConstructFrom($class, $values, $apiKey);
-  }
-
-  public static function retrieve($id, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedRetrieve($class, $id, $apiKey);
-  }
-
-  public static function all($params=null, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedAll($class, $params, $apiKey);
-  }
-
-  public static function create($params=null, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedCreate($class, $params, $apiKey);
-  }
-    
-  public function save()
-  {
-    $class = get_class();
-    return self::_scopedSave($class);
-  }
-
-  public function refund($params=null)
-  {
-    $requestor = new Conekta_ApiRequestor($this->_apiKey);
-    $url = $this->instanceUrl() . '/refund';
-    list($response, $apiKey) = $requestor->request('post', $url, $params);
-    $this->refreshFrom($response, $apiKey);
-    return $this;
-  }
-
-  public function capture($params=null)
-  {
-    $requestor = new Conekta_ApiRequestor($this->_apiKey);
-    $url = $this->instanceUrl() . '/capture';
-    list($response, $apiKey) = $requestor->request('post', $url, $params);
-    $this->refreshFrom($response, $apiKey);
-    return $this;
-  }
-
-  public function updateDispute($params=null)
-  {
-    $requestor = new Conekta_ApiRequestor($this->_apiKey);
-    $url = $this->instanceUrl() . '/dispute';
-    list($response, $apiKey) = $requestor->request('post', $url, $params);
-    $this->refreshFrom(array('dispute' => $response), $apiKey, true);
-    return $this->dispute;
-  }
-
-  public function closeDispute()
-  {
-    $requestor = new Conekta_ApiRequestor($this->_apiKey);
-    $url = $this->instanceUrl() . '/dispute/close';
-    list($response, $apiKey) = $requestor->request('post', $url);
-    $this->refreshFrom($response, $apiKey);
-    return $this;
-  }
+class Conekta_Charge extends Conekta_Resource
+{	
+	public static function find($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
+	
+	public static function where($params=null) {
+		$class = get_called_class();
+		return self::_scpWhere($class, $params);
+	}
+	
+	public static function create($params=null)
+	{
+		$class = get_called_class();
+		return self::_scpCreate($class, $params);
+	}
+	
+	public function capture()
+	{
+		return self::_customAction('post', 'capture', null);
+	}
+	
+	public function refund($amount=null)
+	{
+		$params = null;
+		if (isset($amount)) {
+			$params = array('amount'=>$amount);
+		}
+		return self::_customAction('post', 'refund', $params);
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public static function retrieve($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
+	
+	public static function all($params=null) {
+		$class = get_called_class();
+		return self::_scpWhere($class, $params);
+	}
 }
+?>

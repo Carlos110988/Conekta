@@ -1,22 +1,25 @@
 <?php
-
-class Conekta_Token extends Conekta_ApiResource
+class Conekta_Token extends Conekta_Resource
 {
-  public static function constructFrom($values, $apiKey=null)
-  {
-    $class = get_class();
-    return self::scopedConstructFrom($class, $values, $apiKey);
-  }
-
-  public static function retrieve($id, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedRetrieve($class, $id, $apiKey);
-  }
-
-  public static function create($params=null, $apiKey=null)
-  {
-    $class = get_class();
-    return self::_scopedCreate($class, $params, $apiKey);
-  }
+	public static function find($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
+	
+	public static function create($params=null)
+	{
+		$class = get_called_class();
+		return self::_scpCreate($class, $params);
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public static function retrieve($id)
+	{
+		$class = get_called_class();
+		return self::_scpFind($class, $id);
+	}
 }
+?>

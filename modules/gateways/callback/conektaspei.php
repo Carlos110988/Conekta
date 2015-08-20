@@ -21,7 +21,7 @@ include("../../../includes/functions.php");
 include("../../../includes/gatewayfunctions.php");
 include("../../../includes/invoicefunctions.php");
 
-$gatewaymodule = "conektabanorte"; # Enter your gateway module name here replacing template
+$gatewaymodule = "conektaspei"; # Enter your gateway module name here replacing template
 
 $GATEWAY = getGatewayVariables($gatewaymodule);
 if (!$GATEWAY["type"])
@@ -48,7 +48,7 @@ if($json->payment_method->object=='bank_transfer_payment')
 
 {
 	// Guardar Log de webhook (comentar esto para no guardar logs)
-	$fp = fopen('conekta_logs/banorte_'.md5(uniqid()).".txt","wb");
+	$fp = fopen('conekta_logs/spei_'.md5(uniqid()).".txt","wb");
 	fwrite($fp,$result);
 	fclose($fp);
 	
@@ -62,8 +62,6 @@ if($json->payment_method->object=='bank_transfer_payment')
 	$fee				= $amount_3.'.'.$decimals_3;
 	
 	$invoiceid 			= str_replace('factura_', '', $invoiceid);
-	
-	$invoiceid			= 18;
 	
 	if($status=='paid'){$status=1;}else{$status=0;}
 	

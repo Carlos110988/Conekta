@@ -1,68 +1,62 @@
 <?php
-
 abstract class Conekta_Util
 {
-  public static function isList($array)
-  {
-    if (!is_array($array))
-      return false;
-    // TODO: this isn't actually correct in general, but it's correct given Conekta's responses
-    foreach (array_keys($array) as $k) {
-      if (!is_numeric($k))
-        return false;
-    }
-    return true;
-  }
-
-  public static function convertConektaObjectToArray($values)
-  {
-    $results = array();
-    foreach ($values as $k => $v) {
-      // FIXME: this is an encapsulation violation
-      if ($k[0] == '_') {
-        continue;
-      }
-      if ($v instanceof Conekta_Object) {
-        $results[$k] = $v->__toArray(true);
-      }
-      else if (is_array($v)) {
-        $results[$k] = self::convertConektaObjectToArray($v);
-      }
-      else {
-        $results[$k] = $v;
-      }
-    }
-    return $results;
-  }
-
-  public static function convertToConektaObject($resp, $apiKey)
-  {
-    $types = array(
-      'card' => 'Conekta_Card',
-      'charge' => 'Conekta_Charge',
-      'customer' => 'Conekta_Customer',
-      'list' => 'Conekta_List',
-      'invoice' => 'Conekta_Invoice',
-      'invoiceitem' => 'Conekta_InvoiceItem',
-      'event' => 'Conekta_Event',
-      'transfer' => 'Conekta_Transfer',
-      'plan' => 'Conekta_Plan',
-      'recipient' => 'Conekta_Recipient'
-    );
-    //if (self::isList($resp)) {
-      //$mapped = array();
-      //foreach ($resp as $i)
-        //array_push($mapped, self::convertToConektaObject($i, $apiKey));
-      //return $mapped;
-    //} else 
-    if (is_array($resp)) {
-      if (isset($resp['object']) && is_string($resp['object']) && isset($types[$resp['object']]))
-        $class = $types[$resp['object']];
-      else
-        $class = 'Conekta_Object';
-      return Conekta_Object::scopedConstructFrom($class, $resp, $apiKey);
-    } else {
-      return $resp;
-    }
-  }
+	public static $types = array(
+		'billing_address' => 'Conekta_Address',
+		'bank_transfer_payout_method' => 'Conekta_Method',
+		'payout' => 'Conekta_Payout',
+		'payee' => 'Conekta_Payee',
+		'payout_method' => 'Conekta_Payout_Method',
+		'card_payment' => 'Conekta_Payment_Method',
+		'cash_payment' => 'Conekta_Payment_Method',
+		'bank_transfer_payment' => 'Conekta_Payment_Method',
+		'card' => 'Conekta_Card',
+		'charge' => 'Conekta_Charge',
+		'customer' => 'Conekta_Customer',
+		'event' => 'Conekta_Event',
+		'plan' => 'Conekta_Plan',
+		'subscription' => 'Conekta_Subscription'
+	);
+	
+	public static function convertToConektaObject($resp)
+	{
+		$types = self::$types;
+		if (is_array($resp)) 
+		{
+			if (isset($resp['object']) && is_string($resp['object']) && isset($types[$resp['object']]))
+			{
+				$class = $types[$resp['object']];
+				$instance = new $class();
+				$instance->loadFromArray($resp);
+				return $instance;
+			}
+			if (isset($resp['street1']) || isset($resp['street2'])) {
+				$class = "Conekta_Address";
+				$instance = new $class();
+				$instance->loadFromArray($resp);
+				return $instance;
+			}
+			if (current($resp)) {
+				$instance = new Conekta_Object();
+				$instance->loadFromArray($resp);
+				return $instance;
+			}
+			return new Conekta_Object();
+		} 
+		return $resp;
+	}
+	
+	public static function shiftArray($array, $k) {
+		unset($array[$k]);
+		end($array);
+		$lastKey = key($array);
+		
+		for ($i = $k; $i < $lastKey; ++ $i) {
+			$array[$i] = $array[$i+1];
+			unset($array[$i+1]);
+		}
+		
+		return $array;
+	}
 }
+?>
