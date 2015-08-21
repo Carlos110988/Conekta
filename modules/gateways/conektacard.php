@@ -81,8 +81,8 @@ function conektacard_capture($params) {
 	# Incluimos la libreria de Conecta 1.0 
 	
 	// Usaremos la libreria 1.0 para procesar tarjeta de Credito / Debito
-	// Parche para enviar cargos sin tokenalizar !!!
-	// Todavia no resuelvo el problema para tokenalizar los datos de la tarjeta ... alguien que me ayude??? 
+	// Parche para enviar cargos sin tokenizar !!!
+	// Todavia no resuelvo el problema para tokenizar los datos de la tarjeta ... alguien que me ayude??? 
 	// CarlosCesar110988@gmail.om
 	
 	require_once('conekta/lib_1.0/Conekta.php');
