@@ -82,9 +82,9 @@ function conektaspei_link($params) {
 	$data_currency 		= strtolower($currency);
 	$data_description 	= 'Pago Factura No. '.$invoiceid;
 	
-	# Incluimos la libreria de Conecta
+	# Incluimos la libreria de Conecta 2.0
 
-	require_once('conekta/lib/Conekta.php');
+	require_once('conekta/lib_2.0/Conekta.php');
 	
 	# Creamos el Objeto de Cargo
 	Conekta::setApiKey($private_key);

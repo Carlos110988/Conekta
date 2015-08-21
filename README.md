@@ -1,4 +1,13 @@
-Conekta  2.0 WHMCS
+Conekta 2.1 WHMCS
+
+Actualizacion 21 agosto 2015 (Gracias a Moises P. por notificarnos el bug)
+
+* Integramos las librerias 1.0 y 2.0 de Conekta para poder procesar Tarjetas/SPEI/Oxxo sin problemas
+* Replazamos modules/gateways/conekta/lib/ por modules/gateways/conekta/lib_1.0/ y modules/gateways/conekta/lib_2.0/
+* Actualizamos:
+	- modules/gateways/conektacard.php
+	- modules/gateways/conektaoxxo.php
+	- modules/gateways/conektaspei.php
 
 Actualizacion 20 agosto 2015
 

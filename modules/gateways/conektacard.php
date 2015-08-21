@@ -78,8 +78,14 @@ function conektacard_capture($params) {
 	$data_currency 		= strtolower($currency);
 	$data_description 	= 'Pago Factura No. '.$invoiceid;
 	
-	# Incluimos la libreria de Conecta
-	require_once('conekta/lib/Conekta.php');
+	# Incluimos la libreria de Conecta 1.0 
+	
+	// Usaremos la libreria 1.0 para procesar tarjeta de Credito / Debito
+	// Parche para enviar cargos sin tokenalizar !!!
+	// Todavia no resuelvo el problema para tokenalizar los datos de la tarjeta ... alguien que me ayude??? 
+	// CarlosCesar110988@gmail.om
+	
+	require_once('conekta/lib_1.0/Conekta.php');
 	
 	# Creamos el Objeto de Cargo
 	Conekta::setApiKey($private_key);
