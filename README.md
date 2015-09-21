@@ -1,4 +1,8 @@
-Conekta 2.1 WHMCS
+Conekta 2.1.1 WHMCS
+
+Actualizacion 21 Septiembre 2015 (Gracias a Erick Álvarez de Conekta)
+
+* Agregamos el parametro (details->name) - se envia el nombre de quien realiza el pago en los 3 metodos de pago. 
 
 Actualizacion 21 agosto 2015 (Gracias a Moises P. por notificarnos el bug)
 

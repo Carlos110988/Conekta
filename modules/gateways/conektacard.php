@@ -116,6 +116,7 @@ function conektacard_capture($params) {
 	  					'currency' 		=> $data_currency,
 	  					'details'=> array(
 									      'email'			=> $email,
+									      'name'			=> $firstname.' '.$lastname,
 									      'line_items'		=> array(
 															        array( 
 															          'name'		=>	$data_description,

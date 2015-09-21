@@ -101,6 +101,7 @@ function conektaspei_link($params) {
 										),
 				'details'=> array(
 									      'email'			=> $email,
+									      'name'			=> $firstname.' '.$lastname,
 									      'line_items'		=> array(
 															        array( 
 															          'name'		=>	$data_description,
