@@ -66,8 +66,8 @@ abstract class Conekta_Resource extends Conekta_Object
 		if (!$id) 
 		{
 			throw new Conekta_Error(
-			LANG::translate('error.resource.id', array('RESOURCE'=>get_class()), LANG::EN),
-			LANG::translate('error.resource.id_purchaser', null, Conekta::$locale)
+			ConektaLANG::translate('error.resource.id', array('RESOURCE'=>get_class()), ConektaLANG::EN),
+			ConektaLANG::translate('error.resource.id_purchaser', null, Conekta::$locale)
 			);
 		}
 		$class = get_class($this);
