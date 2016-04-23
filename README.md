@@ -1,4 +1,6 @@
-Conekta 2.1.1 WHMCS
+Conekta 2.1.2 WHMCS
+
+23 Abril - Cambiando la imagen de spei a local y cambiando LANG a ConektaLANG (Gracias a medisoft Mario Medina por la correccion)
 
 Actualizacion 21 Septiembre 2015 (Gracias a Erick Álvarez de Conekta)
 
