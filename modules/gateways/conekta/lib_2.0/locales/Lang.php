@@ -1,5 +1,5 @@
 <?php
-class LANG
+class ConektaLANG
 { 
 	const EN = 'en';
 	const ES = 'es';
