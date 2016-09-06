@@ -1,4 +1,6 @@
-Conekta 2.1.2 WHMCS
+Conekta 2.1.3 WHMCS
+
+6 Sep - Se agregar parametro "Phone" en details al enviar el cargo a Conekta. (Gracias a Marco Polo por la información)
 
 23 Abril - Cambiando la imagen de spei a local y cambiando LANG a ConektaLANG (Gracias a medisoft Mario Medina por la correccion)
 
