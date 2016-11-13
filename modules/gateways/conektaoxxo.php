@@ -49,22 +49,20 @@ function conektaoxxo_link($params) {
     # Variables de la Factura
 	$invoiceid 		= $params['invoiceid'];
 	$amount 		= $params['amount'];
-    $currency 		= $params['currency'];
+    $currency 		= strtolower($params['currency']);
 
     # Variables del cliente
 	$firstname 		= $params['clientdetails']['firstname'];
 	$lastname 		= $params['clientdetails']['lastname'];
 	$email 			= $params['clientdetails']['email'];
-	$address1 		= $params['clientdetails']['address1'];
-	$address2 		= $params['clientdetails']['address2'];
-	$city 			= $params['clientdetails']['city'];
-	$state 			= $params['clientdetails']['state'];
-	$postcode 		= $params['clientdetails']['postcode'];
-	$country 		= $params['clientdetails']['country'];
 	$phone 			= $params['clientdetails']['phonenumber'];
-	
+
+	if($amount < 15 && $currency == "mxn"){
+		return "El monto mínimo para pagar en OXXO es de $15 pesos mexicanos.";
+	}
+
 	# Dias para que expire el Pago 
-	$days_expire 	= $params['days_expire'];
+	$days_expire 	= $params['days_expire'];
 	
 	# Si el parametro viene vacio lo fijamos a 5 dias
 	if(strlen($days_expire)==0){$days_expire=5;}
@@ -74,12 +72,9 @@ function conektaoxxo_link($params) {
 	$date 		= time();
 	$expires 	= date('Y-m-d', strtotime('+'. $days_expire .' day', $date));
 
-	$results = array();
-	
 	# Preparamos todos los parametros para enviar a Conekta.io
 	
 	$data_amount 		= str_replace('.', '', $amount);
-	$data_currency 		= strtolower($currency);
 	$data_description 	= 'Pago Factura No. '.$invoiceid;
 	
 	# Incluimos la libreria de Conecta 2.0
@@ -94,7 +89,7 @@ function conektaoxxo_link($params) {
 				'description' 		=> $data_description, 
 				'reference_id' 		=> 'factura_'.$invoiceid, 
 				'amount' 			=> intval($data_amount), 
-				'currency' 			=> $data_currency, 
+				'currency' 			=> $currency,
 				'cash' 				=> array(
 												'type'			=>'oxxo',
 												'expires_at'	=> $expires
