@@ -16,10 +16,9 @@
 // USE OR PERFORMANCE OF THIS SOFTWARE.
 
 # Required File Includes
-include("../../../dbconnect.php");
-include("../../../includes/functions.php");
-include("../../../includes/gatewayfunctions.php");
-include("../../../includes/invoicefunctions.php");
+require_once __DIR__ . '/../../../init.php';
+require_once __DIR__ . '/../../../includes/gatewayfunctions.php';
+require_once __DIR__ . '/../../../includes/invoicefunctions.php';
 
 $gatewaymodule = "conektaoxxo"; # Enter your gateway module name here replacing template
 
@@ -43,8 +42,8 @@ $status				= $json->status;
 $transid 			= $json->id;
 
 
-// Validamos que el IPN sea de Banorte
-if($json->payment_method->object=='cash')
+// Validamos que el IPN sea de OXXO
+if($json->payment_method->object=='cash_payment')
 
 {
 	// Guardar Log de webhook (comentar esto para no guardar logs)
